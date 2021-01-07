@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Crime Vision LA </title>
+  <!-- d3 -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/bootstrap/jumbotron.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/main_d3.css" />
+  <link rel="stylesheet" type="text/css" href="css/bar.css" />
+  <link rel="stylesheet" type="text/css" href="css/victim_age.css" />
+  <link rel="stylesheet" type="text/css" href="css/victim_sex.css" />
+  <link rel="stylesheet" type="text/css" href="css/victim_year.css" />
+  <link rel="stylesheet" type="text/css" href="css/victim_decent.css" />
+  <link rel="stylesheet" type="text/css" href="css/victim_type.css" />
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Crime Vision LA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#intro">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="#area">Area</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#time">Year</a>
+        </li>
+
+       
+      </ul>
+    </div>
+  </nav>
+
+  <main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div id="intro" class="jumbotron">
+      <div class="container">
+        <h1>Crime Vision LA!</h1>
+        
+        <h4><p> We provide crime data visuatisation services based on real data for the city of Los Angeles. 
+          Your safety, security and good livelyhood is our highest priority. 
+          Hope our analysis helps you to decide where you travel, hangout or even  settle down 
+          for better living.</p>
+          <p>Stay Safe! Stay Well! Stay Healthy!</p> </h4>>
+        
+          <a class="btn btn-primary btn-lg" href="#time" role="button">Navigate to Year-on-Year Crime Cases ...&raquo;</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- /container -->
+    <div id="area" class="jumbotron">
+      <div class="container">
+        <h2>Number of Crime Cases by LAPD Area or Division</h2>
+        <p class="lead">Select the year and area of interest to display the crime data.</p>
+        <div class="row">
+          <div class="col-md-6">
+            <div id="select-year">
+              <span class="lead">Year:</span>
+            </div>
+            <div id="map-left"></div>
+          </div>
+          <div id="map-right" clas="col-md-6">
+            <h3>
+              <span id="current-area">All Area</span>
+            </h3>
+            <h4>Year-Month</h4>
+            <div class="row" id="map-line"></div>
+            <h4>Daily Crime Rates</h4>
+            <p> Data is grouped by the hour and incident time in a day.
+              <br>The Bars shows the total count of cases in the selected area and year(s)</p>
+            <div class="row" id="map-24bar"></div>
+            <h4>Demographic</h4>
+            <div class="row" id="donuts"></div>
+            <div class="row" id="bars"></div>
+          </div>
+        </div>
+      </div>
+      <script src="./js/main_d3.js"></script>
+    </div>
+
+
+    <div id="time" class="container light">
+      <h2>Year-on-Year Crime Cases</h2>
+      <h4 class="lead" >Here are the break down of the crime data from 2010 to 2016.
+        <br/>Select Tabs below to Nevigate to Plots.</h4>
+      <div class="nav nav-pills flex-column flex-sm-row" id="v-pills-tab" role="tablist">
+        <a class="flex-sm-fill text-sm-center nav-link active" id="v-pills-time-tab" data-toggle="pill" href="#v-pills-time" role="tab"
+          aria-controls="v-pills-time" aria-selected="true">Year-Month</a>
+        <a class="flex-sm-fill text-sm-center nav-link" id="v-pills-sex-tab" data-toggle="pill" href="#v-pills-sex" role="tab" aria-controls="v-pills-sex"
+          aria-selected="false">Victim's Sex</a>
+        <a class="flex-sm-fill text-sm-center nav-link" id="v-pills-age-tab" data-toggle="pill" href="#v-pills-age" role="tab" aria-controls="v-pills-age"
+          aria-selected="false">Victim's Age</a>
+        <a class="flex-sm-fill text-sm-center nav-link" id="v-pills-descent-tab" data-toggle="pill" href="#v-pills-descent" role="tab"
+          aria-controls="v-pills-descent" aria-selected="false">Victim's Ethnicity</a>
+        <a class="flex-sm-fill text-sm-center nav-link" id="v-pills-type-tab" data-toggle="pill" href="#v-pills-type" role="tab"
+          aria-controls="v-pills-type" aria-selected="false">Top 5 Crime Types</a>
+      </div>
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-time" role="tabpanel" aria-labelledby="v-pills-time-tab">
+          <svg width="800" height="400"></svg>
+          <hr>
+          <ul>
+            <h5>The above chart depicts crime trends over the years.</h5>
+          </ul>
+          <script src="./js/victim_year.js"></script>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-sex" role="tabpanel" aria-labelledby="v-pills-sex-tab">
+          <script src="./js/victim_sex.js"></script>
+          <hr>
+          <ul>
+            <h5>The bar graph represents sex victims based crimes on year-by-year.
+             The pie graph provides distrubution of crimes based on specific sex that 
+            refers to the histogram by years once a pie is selected.</h5>
+          </ul>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-age" role="tabpanel" aria-labelledby="v-pills-age-tab">
+          <script src="./js/victim_age.js"></script>
+          <hr>
+          <ul>
+            <h5>The bar graph represents crime victims on year-by-year based on victim's age. </h5>
+            <h5>The pie slice of specific age group of victim refers to the distribution for the number of crimes based on
+              this age group over the time.</h5>
+          </ul>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-descent" role="tabpanel" aria-labelledby="v-pills-descent-tab">
+          <script src="./js/victim_decent.js"></script>
+          <hr>
+          <ul>
+            <h5>The bar graph represents crime victims on year-by-year based on victim's ethnicity. </h5>
+            <h5>The pie chart slices and legends refers to number and percentage of crime victims
+                based on ethnicity of victim. The distribution for the number of crimes based on
+                the type of ethnicity for the period is in the histogram as a cross refernce to the pie chart
+            </h5>
+          </ul>
+        </div>
+        <div class="tab-pane fade" id="v-pills-type" role="tabpanel" aria-labelledby="v-pills-type-tab">
+          <ul>
+            <h5> Grouped Horizontal Bar Chart and Dendrogram: Displays top 5 crime types over the period and total 
+              number of crimes for each crime type by year
+            </h5>
+      
+          </ul>
+          <hr>
+          <svg width="800" height="900"></svg>
+          <script src="./js/victim_type.js"></script>
+        </div>
+      </div>
+    
+        </div>
+    </div>
+    
+  </main>
+
+  <footer class="container">
+    <h2>Data Source - Reference</h2>
+    <ul>
+      <li>
+        <a href="https://data.lacity.org/Public-Safety/Crime-Data-from-2010-to-2019/63jg-8b9z">Crime Data from 2010 to Present | Los Angeles - Open Data Portal</a>
+      </li>
+      <li>
+        <a href="http://boundaries.latimes.com/set/lapd-divisions/">LAPD Divisions - Mapping L.A. Boundaries API - Data Desk - Los Angeles Times</a>
+      </li>
+      <li>
+        <a href="http://boundaries.latimes.com/set/lapd-bureaus/">LAPD Bureaus - Mapping L.A. Boundaries API - Data Desk - Los Angeles Times</a>
+      </li>
+    </ul>
+    <p> Team Crime Vision ...</p>
+  </footer>
+  <script>
+    var $root = $('html, body');
+    $('nav.navbar .nav-link, div#intro a.btn').click(function () {
+      $root.animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+      }, 500);
+      return false;
+    });
+  </script>
+  
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script>window.jQuery || document.write('<script src="./assets/jquery.min.js"><\/script>')</script>
+  <script src="./js/popper.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+</body>
+
+</html>
